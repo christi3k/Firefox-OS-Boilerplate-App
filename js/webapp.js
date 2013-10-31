@@ -17,6 +17,31 @@
             view (type: "url" etc. "text/html"?)
     */
 
+    navigator.mozL10n.ready ( function () {
+        var _ = navigator.mozL10n.get;
+        // Notifications
+        var addNotification = document.querySelector("#add-notification");
+        if (addNotification) {
+            addNotification.onclick = function () {
+                var appRef = navigator.mozApps.getSelf(),
+                    icon;
+                appRef.onsuccess = function (evt) {
+                    icon = appRef.result.manifest.icons["16"];
+                    console.log("I am: " + icon);
+                    var notification = navigator.mozNotification.createNotification(
+                        _('notification-text'),
+                        icon,
+                        icon
+                    );
+                    notification.show();
+                    var img = document.createElement("img");
+                    img.src = icon;
+                    document.body.appendChild(img);
+                };
+            };
+        }
+    });
+
     // WebActivities
     var pickImage = document.querySelector("#pick-image");
     if (pickImage) {
@@ -217,27 +242,6 @@
         }
     }
 
-    // Notifications
-    var addNotification = document.querySelector("#add-notification");
-    if (addNotification) {
-        addNotification.onclick = function () {
-            var appRef = navigator.mozApps.getSelf(),
-                icon;
-            appRef.onsuccess = function (evt) {
-                icon = appRef.result.manifest.icons["16"];
-                console.log("I am: " + icon);
-                var notification = navigator.mozNotification.createNotification(
-                    "See this",
-                    icon,
-                    icon
-                );
-                notification.show();
-                var img = document.createElement("img");
-                img.src = icon;
-                document.body.appendChild(img);
-            };
-        };
-    }
 
     // Lock orientation
     var lockOrientation = document.querySelector("#lock-orientation");
