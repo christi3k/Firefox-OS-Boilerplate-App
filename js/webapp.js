@@ -192,11 +192,15 @@
     var composeEmail = document.querySelector("#compose-email");
     if (composeEmail) {
         composeEmail.onclick = function () {
+            var testFile = ['<a id="a"><strong>hello world</strong></a>'];
+            var testBlob = new Blob(testFile, {type : 'text/html'});
             var createEmail = new MozActivity({
                 name: "new", // Possibly compose-mail in future versions
                 data: {
                     type : "mail",
-                    url: "mailto:example@example.org"
+                    url: "mailto:example@example.org?subject=this%20is%20a%20test&cc=example2@example.org",
+                    blobs: [testBlob],
+                    filenames: ['test.html']
                 }
             });
         }
